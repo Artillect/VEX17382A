@@ -4,7 +4,7 @@ This is the repository for all code for The Bulls (17382A).
 
 Everyone who will be coding the robot should fork the repository, and whenever you're done, submit a pull request
 
-# Ports
+## Ports
 
 Port 1 is not mapped to anything yet
 
@@ -12,7 +12,7 @@ Ports 2-5 are the wheels, starting with front right and going clockwise
 
 Ports 6-12 are not mapped to anything yet
 
-# Controls
+## Controls
 
 Channel 1 on the joystick is move right and move left (Right stick +x/-x)
 
