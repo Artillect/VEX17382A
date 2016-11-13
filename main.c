@@ -38,20 +38,6 @@ task main()
 			motor[port3] = - vexRT[Ch1] - vexRT[Ch2] + vexRT[Ch4] * 0.75;
 			motor[port4] = - vexRT[Ch1] + vexRT[Ch2] + vexRT[Ch4] * 0.75;
 			motor[port5] =   vexRT[Ch1] + vexRT[Ch2] + vexRT[Ch4] * 0.75;
-// Attempts at fixing overcorrection after rotation, FIX AND REIMPLEMENT THIS AFTER A LARGE DEGREE OF FUCKING WITH
-//			if (SensorValue[in8] + vexRT[Ch4]*14 > 3600) {
-//				angle = (SensorValue[in8] + vexRT[Ch4]*14) %  3600;
-//			}
-//			else if (SensorValue[in8] + vexRT[Ch4]*14 > 3600) {
-//				angle = (SensorValue[in8] + vexRT[Ch4]*14) % -3600;
-//			}
-//			else {
-//				angle = SensorValue[in8] + vexRT[Ch4]*14;
-//			}
-//			wait1Msec(10);
-			angle = SensorValue[in8];
-		}
-
 		// Translates joystick control to motor actuation
 		// Currently the most basic implementation of course correction, works well, overcorrects after yawing
 		motor[port2] =   vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
