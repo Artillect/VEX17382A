@@ -1,7 +1,6 @@
-task main()
-{
+task main(){
 	// Declare Variables
-	int start = 0;
+	int start = 1;
 	int heading;
 	int angle;
   //Completely clear out any previous sensor readings by setting the port to "sensorNone"
@@ -22,6 +21,7 @@ task main()
 		if (vexRT[Btn8D] == 1) {
 			start = start + 1;
 		}
+
 	}
 	// Control Loop
 	while (start == 1){
@@ -34,15 +34,31 @@ task main()
 		while (abs(vexRT[Ch4]) > 0) {
 			angle = SensorValue[in8];
 			heading = SensorValue[in8];
-			motor[port2] =   vexRT[Ch1] - vexRT[Ch2] + vexRT[Ch4] * 0.75;
-			motor[port3] = - vexRT[Ch1] - vexRT[Ch2] + vexRT[Ch4] * 0.75;
-			motor[port4] = - vexRT[Ch1] + vexRT[Ch2] + vexRT[Ch4] * 0.75;
-			motor[port5] =   vexRT[Ch1] + vexRT[Ch2] + vexRT[Ch4] * 0.75;
+			motor[port2] =   -vexRT[Ch1] + vexRT[Ch2] + vexRT[Ch4] * 0.75;
+			motor[port3] =  vexRT[Ch1] + vexRT[Ch2] + vexRT[Ch4] * 0.75;
+			motor[port4] =  vexRT[Ch1] - vexRT[Ch2] + vexRT[Ch4] * 0.75;
+			motor[port5] =   -vexRT[Ch1] - vexRT[Ch2] + vexRT[Ch4] * 0.75;
+		}
 		// Translates joystick control to motor actuation
 		// Currently the most basic implementation of course correction, works well, overcorrects after yawing
-		motor[port2] =   vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
-		motor[port3] = - vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
-		motor[port4] = - vexRT[Ch1] + vexRT[Ch2] + (angle - heading)/3;
-		motor[port5] =   vexRT[Ch1] + vexRT[Ch2] + (angle - heading)/3;
+		motor[port2] =   -vexRT[Ch1] + vexRT[Ch2] + (angle - heading)/3;
+    motor[port3] =  vexRT[Ch1] + vexRT[Ch2] + (angle - heading)/3;
+		motor[port4] =  vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
+		motor[port5] =   - vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
+
+
+			while (vexRT[Btn6U] == 1) {
+				motor[port6] = 127;
+				motor[port7] = 127;
+				motor[port8] = -127;
+				motor[port9] = -127;
+			}
+
+			while (vexRT[Btn5U] == 1) {
+				motor[port6] = -127;
+				motor[port7] = -127;
+				motor[port8] = 127;
+				motor[port9] = 127;
+			}
 	}
 }
