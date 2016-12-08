@@ -1,30 +1,40 @@
-void liftForklift() {
-	motor[port6] = 127;
-	motor[port7] = 127;
-	motor[port8] = -127;
-	motor[port9] = -127;
-}
+// This code is for the VEX cortex platform
+#pragma platform(VEX2)
 
-void dropForklift() {
-	motor[port6] = -127;
-	motor[port7] = -127;
-	motor[port8] = 127;
-	motor[port9] = 127;
-}
+// Select Download method as "competition"
+#pragma competitionControl(Competition)
 
-void shootCatapult() {
-	motor[port10] = 127;
-	motor[port10] = 127;
-	motor[port1] = 127;
-	motor[port1] = 127;
-	wait1Msec(500);
-}
+//Main competition background code...do not modify!
+#include "Vex_Competition_Includes.c"
 
-task main(){
-	// Declare Variables
-	int start = 1;
+/*---------------------------------------------------------------------------*/
+/*                          Pre-Autonomous Functions                         */
+/*                                                                           */
+/*  You may want to perform some actions before the competition starts.      */
+/*  Do them in the following function.  You must return from this function   */
+/*  or the autonomous and usercontrol tasks will not be started.  This       */
+/*  function is only called once after the cortex has been powered on and    */
+/*  not every time that the robot is disabled.                               */
+/*---------------------------------------------------------------------------*/
+
 	int heading;
 	int angle;
+void pre_auton()
+{
+  // Set bStopTasksBetweenModes to false if you want to keep user created tasks
+  // running between Autonomous and Driver controlled modes. You will need to
+  // manage all user created tasks if set to false.
+  bStopTasksBetweenModes = true;
+
+	// Set bDisplayCompetitionStatusOnLcd to false if you don't want the LCD
+	// used by the competition include file, for example, you might want
+	// to display your team name on the LCD in this function.
+	// bDisplayCompetitionStatusOnLcd = false;
+
+  // All activities that occur before the competition starts
+  // Example: clearing encoders, setting servo positions, ...
+	// Declare Variables
+
 
   //Completely clear out any previous sensor readings by setting the port to "sensorNone"
   SensorType[in8] = sensorNone;
@@ -35,22 +45,72 @@ task main(){
 
   heading = SensorValue[in8];
   angle = SensorValue[in8];
-	// Makes the robot not do anything until 8D button is pressed
-	while (start==0) {
-		// Checks heading and outputs desired angle and current heading to debug stream
-		heading = SensorValue[in8];
-		writeDebugStreamLine("Desired Angle is : %d\n", angle);
-		writeDebugStreamLine("Current Heading is is : %d\n", heading);
-		if (vexRT[Btn8D] == 1) {
-			start = 1;
-		}
-		if (vexRT[Btn8U] == 1) {
-			start = 2;
-		}
-	}
-	// Control Loop
-	while (start == 1){
-		// Checks heading and outputs desired angle and current heading to debug stream
+}
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              Autonomous Task                              */
+/*                                                                           */
+/*  This task is used to control your robot during the autonomous phase of   */
+/*  a VEX Competition.                                                       */
+/*                                                                           */
+/*  You must modify the code to add your own robot specific commands here.   */
+/*---------------------------------------------------------------------------*/
+
+task autonomous()
+{
+  // ..........................................................................
+  // Insert user code here.
+  // ..........................................................................
+
+  // Remove this function call once you have "real" code.
+  		// Move forward a bit
+		motor[port2] = -127;
+		motor[port3] = 127;
+		motor[port4] = 127;
+		motor[port5] = -127;
+		wait1Msec(1000);
+
+		//Lift Forklift
+
+		angle = 90; //Change for correct rotation later
+		motor[port2] = (angle - SensorValue[in8])/3;
+    motor[port3] = (angle - SensorValue[in8])/3;
+		motor[port4] = (angle - SensorValue[in8])/3;
+		motor[port5] = (angle - SensorValue[in8])/3;
+		wait1Msec(2000);
+		//Activate Catapult, remember to use splitters to output to catapult
+
+		// At end of this loop, set start = 1
+}
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                              User Control Task                            */
+/*                                                                           */
+/*  This task is used to control your robot during the user control phase of */
+/*  a VEX Competition.                                                       */
+/*                                                                           */
+/*  You must modify the code to add your own robot specific commands here.   */
+/*---------------------------------------------------------------------------*/
+
+task usercontrol()
+{
+  // User control code here, inside the loop
+
+  while (true)
+  {
+    // This is the main execution loop for the user control program.
+    // Each time through the loop your program should update motor + servo
+    // values based on feedback from the joysticks.
+
+    // ........................................................................
+    // Insert user code here. This is where you use the joystick values to
+    // update your motors, etc.
+    // ........................................................................
+
+    // Remove this function call once you have "real" code.
+    		// Checks heading and outputs desired angle and current heading to debug stream
 		heading = SensorValue[in8];
 		writeDebugStreamLine("Desired Angle is : %d\n", angle);
 		writeDebugStreamLine("Current Heading is : %d\n", heading);
@@ -71,39 +131,9 @@ task main(){
 		motor[port4] =  vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
 		motor[port5] =   - vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
 
-
-		while (vexRT[Btn6U] == 1) {
-			liftForklift();
-		}
-
-		while (vexRT[Btn5U] == 1) {
-			dropForklift();
-		}
-	}
-	// Autonomous Choreo for Left Start ALL TIMINGS ARE VERY ARBITRARY, THEY REALLY NEED TO BE CHANGED ONCE TESTING BEGINS
-	while (start == 2) {
-		// Move forward a bit
-		motor[port2] = -127;
-		motor[port3] = 127;
-		motor[port4] = 127;
-		motor[port5] = -127;
-		wait1Msec(1000);
-
-		//Lift Forklift
-		liftForklift();
-		wait1Msec(1000);
-		dropForklift();
-		wait1Msec(1000);
-
-		angle = 90; //Change for correct rotation later
-		motor[port2] = (angle - SensorValue[in8])/3;
-    motor[port3] = (angle - SensorValue[in8])/3;
-		motor[port4] = (angle - SensorValue[in8])/3;
-		motor[port5] = (angle - SensorValue[in8])/3;
-		wait1Msec(2000);
-		//Activate Catapult, remember to use splitters to output to catapult
-		shootCatapult();
-
-		// At end of this loop, set start = 1
-	}
+			motor[port6] = 127*vexRT[Btn6U] -127*vexRT[Btn5U];
+			motor[port7] = 127*vexRT[Btn6U] -127*vexRT[Btn5U];
+			motor[port8] = -127*vexRT[Btn6U] +127*vexRT[Btn5U];
+			motor[port9] = -127*vexRT[Btn6U] +127*vexRT[Btn5U];
+  }
 }
