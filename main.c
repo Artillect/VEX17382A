@@ -17,8 +17,9 @@
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
 
-	int heading;
-	int angle;
+int heading;
+int angle;
+
 void pre_auton()
 {
   // Set bStopTasksBetweenModes to false if you want to keep user created tasks
@@ -59,29 +60,69 @@ void pre_auton()
 
 task autonomous()
 {
-  // ..........................................................................
-  // Insert user code here.
-  // ..........................................................................
+		angle = SensorValue[in8];
+		// Drop forklift
+		motor[port2] = -127;
+		motor[port3] = -127;
+		motor[port4] = 127;
+		motor[port5] = 127;
+				motor[port6] = 63;
+		motor[port7] = -63;
+		wait1Msec(250);
 
-  // Remove this function call once you have "real" code.
-  		// Move forward a bit
+		motor[port6] = -127;
+		motor[port7] = 127;
+		motor[port2] = 127;
+		motor[port3] = 127;
+		motor[port4] = -127;
+		motor[port5] = -127;
+
+		wait1Msec(250);
+		motor[port6] = -0;
+		motor[port7] = 0;
+		wait1Msec(250);
+		//Move Back
+		motor[port2] = -127;
+		motor[port3] = -127;
+		motor[port4] = 127;
+		motor[port5] = 127;
+		wait1Msec(500);
+		motor[port6] = 31;
+		motor[port7] = -31;
+		motor[port2] = 127;
+		motor[port3] = 127;
+		motor[port4] = -127;
+		motor[port5] = -127;
+		wait1Msec(1000);
+		motor[port6] = 50;
+		motor[port7] = -50;
 		motor[port2] = -127;
 		motor[port3] = 127;
 		motor[port4] = 127;
 		motor[port5] = -127;
+		wait1Msec(1900);
+
+		motor[port6] = 0;
+		motor[port7] = 0;
+		motor[port2] = -127;
+ 		motor[port3] = -127;
+		motor[port4] = -127;
+		motor[port5] = -127;
+		wait1Msec(450);
+		motor[port2] = -127;
+		motor[port3] = -127;
+		motor[port4] = 127;
+		motor[port5] = 127;
+		motor[port6] = 127;
+		motor[port7] = -127;
 		wait1Msec(1000);
 
-		//Lift Forklift
-
-		angle = 90; //Change for correct rotation later
-		motor[port2] = (angle - SensorValue[in8])/3;
-    motor[port3] = (angle - SensorValue[in8])/3;
-		motor[port4] = (angle - SensorValue[in8])/3;
-		motor[port5] = (angle - SensorValue[in8])/3;
-		wait1Msec(2000);
-		//Activate Catapult, remember to use splitters to output to catapult
-
-		// At end of this loop, set start = 1
+		motor[port6] = 0;
+		motor[port7] = 0;
+		motor[port2] = 0;
+		motor[port3] = 0;
+		motor[port4] = 0;
+		motor[port5] = 0;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -131,9 +172,12 @@ task usercontrol()
 		motor[port4] =  vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
 		motor[port5] =   - vexRT[Ch1] - vexRT[Ch2] + (angle - heading)/3;
 
-			motor[port6] = 127*vexRT[Btn6U] -127*vexRT[Btn5U];
-			motor[port7] = 127*vexRT[Btn6U] -127*vexRT[Btn5U];
-			motor[port8] = -127*vexRT[Btn6U] +127*vexRT[Btn5U];
-			motor[port9] = -127*vexRT[Btn6U] +127*vexRT[Btn5U];
+		motor[port6] = 127*vexRT[Btn6U] -127*vexRT[Btn5U];
+		motor[port7] = -127*vexRT[Btn6U] +127*vexRT[Btn5U];
+		motor[port8] = 127*vexRT[Btn6D];
+		motor[port8] = 127*vexRT[Btn6D];
+		motor[port9] = -127*vexRT[Btn6D];
+		motor[port10] = -127*vexRT[Btn6D];
+
   }
 }
