@@ -65,7 +65,6 @@ task autonomous()
 // This controls the robot during the user control period of the competition.
 task usercontrol()
 {
-  // Don't do anything in this section, unless you want the robot to do something before joystick control starts.
   while (true)
   {
 		// Translates joystick control to movement
