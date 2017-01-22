@@ -30,7 +30,6 @@ void lift(int power) {
 void pre_auton()
 {
   bStopTasksBetweenModes = true;
-	// Start pre_auton code here, there shouldn't be much here until we add the gyro
 
 }
 
@@ -66,23 +65,26 @@ task autonomous()
 task usercontrol() {
 
   while (true) {
-		// Calls move with vertical movement controlled by Ch1, horizontal movement controlled by Ch2, and rotation controlled by Ch4 (scaled my 0.75 because it feels right)
+		//Calls move with vertical movement controlled by Ch1, horizontal movement controlled by Ch2, and rotation controlled by Ch4 (scaled my 0.75 because it feels right)
 		move(vexRT[Ch1], vexRT[Ch2], vexRT[Ch4] * 0.75);
 
 		// Controls the lift
 		// Is a bit more streamlined than the next example, harder to read though
-		//lift(127 * vexRT[Btn6U] - 127 * vexRT[Btn5U]);
+		// lift(127 * vexRT[Btn6U] - 127 * vexRT[Btn5U]);
 
 		// I think this works alongside the rest of the code, it does have an unnecessary if check though...
 		// This snippet of code is equivalent to the previous uncommented line.
 		if (vexRT[Btn6U]) {
-			lift(127);
+			lift(110);
 		}
 		else if (vexRT[Btn5U]) {
-			lift(-127);
+			lift(-110);
 		}
 		else {
 			lift(0);
+		}
+		if (vexRT[Btn5D] && !(vexRT[Btn5U] || vexRT[Btn6U])) {
+			lift(10);
 		}
   }
 }
