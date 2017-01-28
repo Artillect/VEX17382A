@@ -30,9 +30,15 @@ void lift(int power) {
 		motor[port10] = power;
 }
 
-void claw(bool direction) {
+void pneumaticClaw(bool direction) {
 	SensorValue[solenoidRight] = direction;
 	SensorValue[solenoidLeft] = direction;
+}
+
+void motorClaw(int power) {
+	THIS CODE WILL NOT COMPILE UNTIL YOU FIX THIS
+	motor[PUT THE PORT FOR LEFT CLAW MOTOR HERE] = power;
+	motor[PUT THE PORT FOR RIGHT CLAW MOTOR HERE] = -power;
 }
 
 // This does stuff before the autonomous or user control periods start, don't set motor powers during this period.
@@ -91,10 +97,12 @@ task usercontrol() {
 			lift(0);
 		}
 		if (vexRT[Btn5D]) {
-			claw(true);
+			pneumaticClaw(true);
+			//motorClaw(127);
 		}
 		if (vexRT[Btn6D]) {
-			claw(false);
+			pneumaticClaw(false);
+			//motorClaw(-127);
 		}
   }
 }
