@@ -41,7 +41,7 @@ void pre_auton() {
 }
 
 // This code controls the robot during the autonomous period of the competition.
-task autonomous() {
+task autonomous() {/*
 		// Drop forklift from locked position
 		move(0, -127, 0);
 		lift(63);
@@ -65,7 +65,7 @@ task autonomous() {
 		wait1Msec(1500);
 
 		// Stop lift
-		lift(0);
+		lift(0);*/
 }
 
 // This controls the robot during the user control period of the competition.
