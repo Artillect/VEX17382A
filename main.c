@@ -12,6 +12,7 @@
 
 // Controls robot movement.
 // Forward is how much forward, right is how much right, yawPower is how much power to turn with
+// Why the fk do you need do differnt powers and then add them, just use one lol -Ashish Shrestha
 void move(int forward, int yawPower) {
 	motor[port4] =   forward + yawPower;
 	motor[port5] =   forward + yawPower;
@@ -30,7 +31,7 @@ void lift(int power) {
 }
 
 void pneumaticClaw(bool direction) {
-	SensorValue[solenoidRight] = direction;
+	SensorValue[solenoidRight] = direction; // Goes in ports 1 and 2
 	SensorValue[solenoidLeft] = direction;
 }
 
@@ -41,7 +42,7 @@ void pre_auton() {
 
 // This code controls the robot during the autonomous period of the competition.
 task autonomous() {
-	/*
+	// robot is starting from the right, use bottom code when from the left
 	// Drop forklift from locked position
 	move(-127, 0);
 	lift(63);
@@ -49,9 +50,108 @@ task autonomous() {
 	lift(-127);
 	move(127, 0);
 	wait1Msec(250);
-	*/
-}
 
+	// Start movin
+	pneumaticClaw(true);
+	move(127, 0);
+	lift(127);
+	wait1Msec(1500);
+	pneumaticClaw(false);
+	wait1Msec(250);
+	move(-127, 0);
+	wait1Msec(250);
+	lift(-127);
+	wait1Msec(500);
+
+	// Flip some stars (switch yaw signs around if starting on left)
+	move(0, -127);
+	wait1Msec(750);
+	move(-127, 0);
+	wait1Msec(250);
+	move(0, -127);
+	wait1Msec(250);
+	lift(127);
+	wait1Msec(1000);
+	lift(-127);
+	wait1Msec(500);
+	move(0, 127);
+	wait1Msec(2000);
+	lift(127);
+	wait1Msec(1000);
+	lift(-127);
+	wait1Msec(1000);
+
+	// INCOMPLETE - Gets 3 farzone stars, either dump or get to favorable spot
+	move(63, -63);
+	wait1Msec(250);
+	move(0, -127);
+	wait1Msec(100);
+	move(127, 0);
+	wait1Msec(500);
+	wait1Msec(250);
+	move(63, 63);
+	wait1Msec(500);
+	pneumaticClaw(false);
+	move(0,127);
+	wait1Msec(500);
+
+
+
+
+}
+/*
+task autonomous() {
+	// robot is starting from the left, use bottom code when from the left
+
+  // Drop forklift from locked position
+	move(-127, 0);
+	lift(63);
+	wait1Msec(250);
+	lift(-127);
+	move(127, 0);
+	wait1Msec(250);
+
+	// Start move backwards
+	pneumaticClaw(true);
+	move(-127, 0);
+	lift(63);
+	wait1Msec(1500);
+	lift(-127);
+	wait1Msec(250);
+
+	// Flip some stars (switch yaw to negative if starting on left)
+	move(0, 127);
+	wait1Msec(500);
+	lift(127);
+	wait1Msec(1000);
+	lift(-127);
+	wait1Msec(500);
+	move(0, -127);
+	wait1Msec(2000);
+	lift(127);
+	wait1Msec(1000);
+	lift(-127);
+	wait1Msec(1000);
+
+	// INCOMPLETE - Gets 3 farzone stars, either dump or get to favorable spot
+	move(63, 63);
+	wait1Msec(250);
+	move(0, 127);
+	wait1Msec(100);
+	move(127, 0);
+	wait1Msec(500);
+	wait1Msec(250);
+	move(63, -63);
+	wait1Msec(500);
+	pneumaticClaw(false);
+	move(0, 127);
+	wait1Msec(500);
+
+
+
+
+}
+*/
 // This controls the robot during the user control period of the competition.
 task usercontrol() {
 
