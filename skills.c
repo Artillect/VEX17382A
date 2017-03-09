@@ -188,7 +188,7 @@ task usercontrol()
 	move(127,0);
 	wait1Msec(1500);
 	move(0,127);
-	wait1Msec(1450);
+	wait1Msec(1450); // Just a bit too long
 
 	// Dump stars
 	move(-127,0);
@@ -196,7 +196,7 @@ task usercontrol()
 	wait1Msec(500);
 	pneumaticClaw(true);
 	lift(0);
-		/* // Commented out for testing purposes
+		/* Commented out for testing purposes
 	move(0,127);
 	wait1Msec(700);
 
